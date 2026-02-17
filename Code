@@ -1,0 +1,81 @@
+//Universal Remote V3//
+//-pwxr13-//
+#include <Arduino.h>
+#include <IRremote.hpp>
+
+const int IRsendPin = 3;
+const int potPin = A0;
+const int potLED = 7; 
+const int buttonPin = A5;
+const int IdleLED = 5;
+const int ActiveLED = 6;
+
+unsigned long lastBlinkTime = 0;
+bool ledState = LOW;
+
+void setup() {
+  IrSender.begin(IRsendPin);
+pinMode(potLED, OUTPUT);
+pinMode(IdleLED, OUTPUT);
+pinMode(ActiveLED, OUTPUT);
+}
+
+void loop() {
+int potRaw = analogRead(A0);
+int potDelay = map(potRaw, 0, 1023, 20, 1000);
+unsigned long currentTime = millis();
+
+if (currentTime - lastBlinkTime >= potDelay) {
+  ledState = !ledState;
+  digitalWrite(potLED, ledState);
+  lastBlinkTime = currentTime;
+}
+
+int buttonSignal = analogRead(A5);
+
+if(buttonSignal > 500){
+  digitalWrite(IdleLED, LOW);
+  digitalWrite(ActiveLED, HIGH);
+
+  IrSender.sendSamsung(0x0707, 0x02, 0);
+  delay(potDelay);
+
+  IrSender.sendSony(0x01, 0x15, 2, 12);
+  delay(potDelay);
+
+  IrSender.sendLG(0x04FB, 0x08, 0);
+  delay(potDelay);
+
+  IrSender.sendPanasonic(0x4004, 0x100BCBD, 0);
+  delay(potDelay);
+
+  IrSender.sendDenon(0x08, 0x01, 0);
+  delay(potDelay);
+
+  IrSender.sendSharp(0x01, 0x41, 0);
+  delay(potDelay);
+
+  IrSender.sendJVC(0x03, 0x08, 1);
+  delay(potDelay);
+
+  IrSender.sendApple(0xEE, 0x0C, 0);
+  delay(potDelay);
+
+  IrSender.sendNEC(0x57E3, 0x18, 0); 
+  delay(potDelay);
+
+  IrSender.sendNEC(0x2020, 0x10, 0); 
+  delay(potDelay);
+
+  IrSender.sendNEC(0x80, 0x02, 0); 
+  delay(potDelay);
+
+  IrSender.sendNEC(0x0030, 0x4E, 3); 
+  delay(500);
+
+
+} else {
+  digitalWrite(IdleLED, HIGH);
+  digitalWrite(ActiveLED, LOW);
+}
+}
