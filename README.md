@@ -1,6 +1,6 @@
 # BY: pwxr13
 # Universal On/Off Remote made to shut down or power on most TVs and such.
-#15m of range when pointed straight at it (1 IR LED Keep in mind)
+#15m of range(1 IR LED)
 #equipped with dynamic delay, using a potentiometer you are able to adjust how fast the IR signals get sent out.
 #LEDs for visualized output (1 LED matching dynamic delay for easier tuning)
 #!!this is only V3 future upgrades will be made!!
@@ -18,3 +18,4 @@
 -940nm IR LED (10-20 degrees)
 -3 LED, different colors for visual feedback
 -Potentiometer
+-2n2222 NPN
